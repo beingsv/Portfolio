@@ -55,6 +55,7 @@ const experiences = [
 export default function ExperienceSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,6 +75,10 @@ export default function ExperienceSection() {
 
     return () => observer.disconnect();
   }, []);
+
+  const toggleExpand = (index: number) => {
+    setExpandedIndex((prev) => (prev === index ? null : index));
+  };
 
   return (
     <section
@@ -101,10 +106,13 @@ export default function ExperienceSection() {
       {/* Timeline cards */}
       <div className="relative z-10 px-8 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-          {experiences.map((exp, index) => (
+          {experiences.map((exp, index) => {
+            const isExpanded = expandedIndex === index;
+            return (
             <div
               key={exp.number}
-              className="group relative transition-all duration-500 ease-out"
+              onClick={() => toggleExpand(index)}
+              className={`group relative transition-all duration-500 ease-out cursor-pointer ${isExpanded ? "is-expanded" : ""}`}
               style={{
                 opacity: visible ? 1 : 0,
                 transform: visible ? "translateY(0)" : "translateY(40px)",
@@ -142,7 +150,7 @@ export default function ExperienceSection() {
                 {exp.role}
               </p>
 
-              {/* Points - first always visible, rest reveal on hover */}
+              {/* Points - first always visible, rest reveal on hover/tap */}
               <ul className="flex flex-col gap-3 mb-6">
                 {/* First point always visible */}
                 <li className="flex gap-2 text-xs text-white/70 leading-relaxed">
@@ -150,10 +158,10 @@ export default function ExperienceSection() {
                   <span>{exp.points[0]}</span>
                 </li>
 
-                {/* Remaining points - slide down on hover */}
-                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out">
+                {/* Remaining points - slide down on hover or when expanded */}
+                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] group-[.is-expanded]:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out">
                   <div className="overflow-hidden">
-                    <div className="flex flex-col gap-3 pt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                    <div className="flex flex-col gap-3 pt-3 opacity-0 group-hover:opacity-100 group-[.is-expanded]:opacity-100 transition-opacity duration-500 delay-100">
                       {exp.points.slice(1).map((point, i) => (
                         <div key={i} className="flex gap-2 text-xs text-white/70 leading-relaxed">
                           <span className="text-orange-500 shrink-0 mt-0.5">▸</span>
@@ -165,8 +173,8 @@ export default function ExperienceSection() {
                 </div>
 
                 {/* Hint when collapsed */}
-                <span className="text-[10px] text-orange-400/60 italic group-hover:opacity-0 transition-opacity duration-300">
-                  Hover to see more ↓
+                <span className="text-[10px] text-orange-400/60 italic group-hover:opacity-0 group-[.is-expanded]:opacity-0 transition-opacity duration-300">
+                  Tap to see more ↓
                 </span>
               </ul>
 
@@ -182,7 +190,8 @@ export default function ExperienceSection() {
                 ))}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

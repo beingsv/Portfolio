@@ -3,7 +3,7 @@
 export default function AboutSection() {
   return (
     <section
-      className="relative w-full h-screen overflow-hidden flex flex-col"
+      className="relative w-full min-h-screen lg:h-screen overflow-hidden flex flex-col"
       style={{ background: "linear-gradient(to bottom, #f8c89c, #f38b3e, #eb6310)" }}
     >
       {/* Floating white dots */}

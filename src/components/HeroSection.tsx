@@ -125,11 +125,11 @@ export default function HeroSection({ onStart, started }: HeroSectionProps) {
 
         {/* Center content */}
         <div
-          className="flex flex-col justify-center flex-1"
-          style={{ marginLeft: "clamp(2rem, 5vw, 5rem)" }}
+          className="flex flex-col justify-center flex-1 pr-4"
+          style={{ marginLeft: "clamp(1rem, 5vw, 5rem)" }}
         >
           <p className="text-label text-amber-500 font-medium">Portfolio 2026</p>
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold text-white leading-[0.9] tracking-tight font-heading">
+          <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-white leading-[0.9] tracking-tight font-heading break-words">
             Shiwam
             <br />
             Vishwakarma

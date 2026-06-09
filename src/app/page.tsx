@@ -68,12 +68,12 @@ export default function Home() {
       </section>
 
       {/* Section 2: AboutSection */}
-      <section className="h-screen snap-start snap-always">
+      <section className="min-h-screen snap-start snap-always">
         <AboutSection />
       </section>
 
       {/* Section 3: WhoIAmSection */}
-      <section className="h-screen snap-start snap-always">
+      <section className="min-h-screen snap-start snap-always">
         <WhoIAmSection />
       </section>
 

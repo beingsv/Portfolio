@@ -33,7 +33,7 @@ export default function WhoIAmSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
   return (
-    <section ref={sectionRef} id="about" className="relative h-screen bg-white text-black overflow-hidden">
+    <section ref={sectionRef} id="about" className="relative min-h-screen lg:h-screen bg-white text-black overflow-hidden">
       {/* Spacer for fixed navbar */}
       <div className="h-16" />
 
