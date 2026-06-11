@@ -1,7 +1,7 @@
 "use client";
 
 import ParticlesCanvas from "@/components/ParticlesCanvas";
-import SplitReveal from "@/components/anim/SplitReveal";
+import InteractiveLetters from "@/components/anim/InteractiveLetters";
 import CountUp from "@/components/anim/CountUp";
 import Magnetic from "@/components/anim/Magnetic";
 
@@ -29,16 +29,12 @@ export default function AboutSection() {
 
         {/* Name + Info Cards Row */}
         <div className="flex flex-col lg:flex-row lg:justify-between gap-8 mb-10">
-          {/* Big Name */}
-          <SplitReveal
+          {/* Big Name - letters flip in, then react to the cursor */}
+          <InteractiveLetters
             as="h2"
-            type="lines"
+            lines={["Shiwam", "Vishwakarma"]}
             className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-black leading-[0.9] tracking-tight font-heading"
-          >
-            Shiwam
-            <br />
-            Vishwakarma
-          </SplitReveal>
+          />
 
           {/* Info Cards - parallel to the name on the right */}
           <div className="flex flex-col gap-4 lg:max-w-xs shrink-0">
