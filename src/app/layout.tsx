@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Nunito, Varela_Round } from "next/font/google";
-import CursorGlow from "@/components/CursorGlow";
+import CustomCursor from "@/components/CustomCursor";
+import GrainOverlay from "@/components/GrainOverlay";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -28,8 +30,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${nunito.variable} ${varelaRound.variable}`}>
       <body className="antialiased font-body">
-        <CursorGlow />
-        {children}
+        <CustomCursor />
+        <GrainOverlay />
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>
   );

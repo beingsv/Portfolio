@@ -1,5 +1,14 @@
 "use client";
 
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+import { useGSAP } from "@gsap/react";
+import Magnetic from "@/components/anim/Magnetic";
+
+gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
+
 function getGreeting() {
   const hour = new Date().getHours();
   if (hour < 12) return "Good Morning";
@@ -9,6 +18,36 @@ function getGreeting() {
 
 export default function ContactSection() {
   const greeting = getGreeting();
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  // On desktop this section sits fixed behind the page (footer reveal), so
+  // element-based trigger positions are meaningless - trigger off absolute
+  // document scroll instead: reveal when nearing the end of the page.
+  useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!headingRef.current) return;
+      SplitText.create(headingRef.current, {
+        type: "lines",
+        mask: "lines",
+        autoSplit: true,
+        onSplit: (self) =>
+          gsap.from(self.lines, {
+            yPercent: 115,
+            duration: 1,
+            ease: "power4.out",
+            stagger: 0.09,
+            scrollTrigger: {
+              start: () =>
+                ScrollTrigger.maxScroll(window) - window.innerHeight * 0.6,
+              end: () => ScrollTrigger.maxScroll(window),
+              once: true,
+            },
+          }),
+      });
+    },
+    { scope: headingRef }
+  );
 
   return (
     <section
@@ -98,7 +137,10 @@ export default function ContactSection() {
             Available for Collaborations
           </p>
 
-          <h3 className="text-5xl xl:text-6xl font-black text-white leading-[0.95] font-heading mb-8">
+          <h3
+            ref={headingRef}
+            className="text-5xl xl:text-6xl font-black text-white leading-[0.95] font-heading mb-8"
+          >
             CRAFTING
             <br />
             MODERN
@@ -112,12 +154,14 @@ export default function ContactSection() {
             <span className="text-orange-500">ALIVE.</span>
           </h3>
 
-          <a
-            href="mailto:beingsamvis@gmail.com"
-            className="inline-flex items-center justify-center gap-2 w-full px-8 py-4 border border-orange-500 text-orange-500 text-xs font-bold tracking-[0.2em] uppercase rounded-full hover:bg-orange-500 hover:text-white transition-all duration-300"
-          >
-            Let&apos;s Talk →
-          </a>
+          <Magnetic className="w-full">
+            <a
+              href="mailto:beingsamvis@gmail.com"
+              className="inline-flex items-center justify-center gap-2 w-full px-8 py-4 border border-orange-500 text-orange-500 text-xs font-bold tracking-[0.2em] uppercase rounded-full hover:bg-orange-500 hover:text-white transition-all duration-300"
+            >
+              Let&apos;s Talk →
+            </a>
+          </Magnetic>
         </div>
       </div>
 

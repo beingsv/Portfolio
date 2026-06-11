@@ -1,6 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import SplitReveal from "@/components/anim/SplitReveal";
+import Magnetic from "@/components/anim/Magnetic";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface HeroSectionProps {
   onStart: () => void;
@@ -11,6 +18,25 @@ export default function HeroSection({ onStart, started }: HeroSectionProps) {
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Video drifts down slower than the section scrolls out = depth on exit
+  useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      gsap.to(videoRef.current, {
+        yPercent: 18,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    },
+    { scope: sectionRef }
+  );
 
   useEffect(() => {
     const video = videoRef.current;
@@ -54,7 +80,7 @@ export default function HeroSection({ onStart, started }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-[#0a0a0a]">
+    <section ref={sectionRef} className="relative w-full h-screen overflow-hidden bg-[#0a0a0a]">
       {/* Background Video */}
       <video
         ref={videoRef}
@@ -97,13 +123,15 @@ export default function HeroSection({ onStart, started }: HeroSectionProps) {
         <p className="text-label text-gray-300 font-light">
           Shiwam Vishwakarma
         </p>
-        <button
-          onClick={handleStart}
-          className="btn relative overflow-hidden border border-amber-500/80 text-amber-500 tracking-[0.25em] uppercase hover:text-white transition-colors duration-300 group"
-        >
-          <span className="absolute inset-0 bg-amber-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-400 ease-out" />
-          <span className="relative z-10">Start</span>
-        </button>
+        <Magnetic>
+          <button
+            onClick={handleStart}
+            className="btn relative overflow-hidden border border-amber-500/80 text-amber-500 tracking-[0.25em] uppercase hover:text-white transition-colors duration-300 group"
+          >
+            <span className="absolute inset-0 bg-amber-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-400 ease-out" />
+            <span className="relative z-10">Start</span>
+          </button>
+        </Magnetic>
       </div>
 
       {/* Main Content - After Start */}
@@ -129,11 +157,17 @@ export default function HeroSection({ onStart, started }: HeroSectionProps) {
           style={{ marginLeft: "clamp(1rem, 5vw, 5rem)" }}
         >
           <p className="text-label text-amber-500 font-medium">Portfolio 2026</p>
-          <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-white leading-[0.9] tracking-tight font-heading break-words">
+          <SplitReveal
+            as="h1"
+            type="chars"
+            play={started}
+            delay={0.9}
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-white leading-[0.9] tracking-tight font-heading break-words"
+          >
             Shiwam
             <br />
             Vishwakarma
-          </h1>
+          </SplitReveal>
           <p className="text-subtitle text-sm md:text-base text-gray-300">
             Frontend Engineer · System Design
           </p>

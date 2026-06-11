@@ -2,6 +2,13 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import SplitReveal from "@/components/anim/SplitReveal";
+import WordReveal from "@/components/anim/WordReveal";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const skills = [
   "JavaScript",
@@ -31,6 +38,63 @@ const skills = [
 
 export default function WhoIAmSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const imageWrapRef = useRef<HTMLDivElement>(null);
+  const marqueeRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Photo: container un-clips from the bottom while the image settles
+      // from an overscaled state - two opposing motions.
+      if (!reduced && imageWrapRef.current) {
+        const img = imageWrapRef.current.querySelector("img");
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: imageWrapRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          })
+          .from(imageWrapRef.current, {
+            clipPath: "inset(100% 0% 0% 0%)",
+            duration: 1.2,
+            ease: "power4.inOut",
+          })
+          .from(img, { scale: 1.4, duration: 1.4, ease: "power4.out" }, 0.15);
+      }
+
+      // Skills marquee: loops forever, but speed and direction react to
+      // scroll velocity, then ease back to normal.
+      if (marqueeRef.current) {
+        const loop = gsap.to(marqueeRef.current, {
+          xPercent: -50,
+          ease: "none",
+          duration: 30,
+          repeat: -1,
+        });
+        if (reduced) {
+          loop.pause();
+          return;
+        }
+        let speedTween: gsap.core.Timeline | null = null;
+        ScrollTrigger.create({
+          onUpdate: (self) => {
+            const velocity = gsap.utils.clamp(-3.5, 3.5, self.getVelocity() / 300);
+            if (Math.abs(velocity) > 1) {
+              speedTween?.kill();
+              speedTween = gsap
+                .timeline()
+                .to(loop, { timeScale: velocity, duration: 0.2 })
+                .to(loop, { timeScale: 1, duration: 1.2, ease: "power2.out" }, "+=0.3");
+            }
+          },
+        });
+      }
+    },
+    { scope: sectionRef }
+  );
 
   return (
     <section ref={sectionRef} id="about" className="relative min-h-screen lg:h-screen bg-white text-black overflow-hidden">
@@ -42,7 +106,11 @@ export default function WhoIAmSection() {
         {/* Left - Photo */}
         <div className="w-full lg:w-[35%] shrink-0">
           <div className="relative">
-            <div className="relative w-full aspect-[4/5] rounded-lg overflow-hidden bg-gray-100">
+            <div
+              ref={imageWrapRef}
+              className="relative w-full aspect-[4/5] rounded-lg overflow-hidden bg-gray-100"
+              style={{ clipPath: "inset(0% 0% 0% 0%)" }}
+            >
               <Image
                 src="/images/about-profile.jpeg"
                 alt="Shiwam Vishwakarma"
@@ -72,9 +140,13 @@ export default function WhoIAmSection() {
         <div className="flex-1 min-w-0 flex flex-col justify-center">
 
           {/* Section title */}
-          <p className="text-lg font-black text-orange-500 tracking-wider uppercase mb-4 font-heading">
+          <SplitReveal
+            as="p"
+            type="chars"
+            className="text-lg font-black text-orange-500 tracking-wider uppercase mb-4 font-heading"
+          >
             Who I Am
-          </p>
+          </SplitReveal>
 
           {/* Skills marquee - infinite horizontal scroll with edge fade */}
           <div className="relative overflow-hidden mb-8">
@@ -83,17 +155,7 @@ export default function WhoIAmSection() {
             {/* Right fade */}
             <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-            <style dangerouslySetInnerHTML={{ __html: `
-              @keyframes marqueeScroll {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(-50%); }
-              }
-            `}} />
-
-            <div
-              className="flex items-center whitespace-nowrap"
-              style={{ animation: "marqueeScroll 30s linear infinite" }}
-            >
+            <div ref={marqueeRef} className="flex items-center whitespace-nowrap">
               {/* Duplicate the list for seamless loop */}
               {[...skills, ...skills].map((skill, i) => (
                 <span key={i} className="flex items-center shrink-0">
@@ -104,11 +166,13 @@ export default function WhoIAmSection() {
             </div>
           </div>
 
-          {/* Bio paragraph */}
+          {/* Bio paragraph - fills in word by word on entry */}
           <div className="w-full">
-            <p className="text-base md:text-lg leading-relaxed text-black/85 font-medium">
-              Frontend Engineer specializing in scalable React and Next.js applications, performance optimization, and real-time systems. Proven impact includes <span className="font-bold">95+ Lighthouse scores</span>, <span className="font-bold">40% reduction in business errors</span>, and integrations used by <span className="font-bold">5K+ users</span>. Strong full-stack exposure with Node.js and modern cloud tooling. Passionate about crafting pixel-perfect interfaces, building design systems from scratch, and turning complex data into intuitive, accessible user experiences.
-            </p>
+            <WordReveal
+              className="text-base md:text-lg leading-relaxed text-black/85 font-medium"
+              text="Frontend Engineer specializing in scalable React and Next.js applications, performance optimization, and real-time systems. Proven impact includes 95+ Lighthouse scores, 40% reduction in business errors, and integrations used by 5K+ users. Strong full-stack exposure with Node.js and modern cloud tooling. Passionate about crafting pixel-perfect interfaces, building design systems from scratch, and turning complex data into intuitive, accessible user experiences."
+              highlights={["95+", "Lighthouse", "scores", "40%", "5K+", "users"]}
+            />
           </div>
         </div>
       </div>

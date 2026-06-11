@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLenis } from "@/components/SmoothScrollProvider";
+import SwapText from "@/components/anim/SwapText";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -17,6 +19,7 @@ interface NavbarProps {
 
 export default function Navbar({ variant = "light" }: NavbarProps) {
   const [currentTime, setCurrentTime] = useState("");
+  const lenis = useLenis();
 
   useEffect(() => {
     const updateTime = () => {
@@ -40,8 +43,20 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
     e.preventDefault();
     const targetId = href.replace("#", "");
     const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    if (!element) return;
+    // Sections are sticky-stacked: an already-covered section reports
+    // rect.top = 0, so scroll to its layout (flow) position instead, which
+    // stickiness doesn't affect.
+    let top = 0;
+    let node: HTMLElement | null = element;
+    while (node) {
+      top += node.offsetTop;
+      node = node.offsetParent as HTMLElement | null;
+    }
+    if (lenis) {
+      lenis.scrollTo(top, { duration: 1.4, force: true });
+    } else {
+      window.scrollTo({ top, behavior: "smooth" });
     }
   };
 
@@ -60,13 +75,13 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
             key={item.label}
             href={item.href}
             onClick={(e) => handleNavClick(e, item.href)}
-            className={`text-sm transition-colors duration-200 tracking-wide cursor-pointer ${
+            className={`group text-sm transition-colors duration-200 tracking-wide cursor-pointer ${
               isDark
                 ? "text-white/80 hover:text-white"
                 : "text-black/80 hover:text-black"
             }`}
           >
-            {item.label}
+            <SwapText>{item.label}</SwapText>
           </a>
         ))}
       </div>
