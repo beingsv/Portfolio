@@ -260,7 +260,7 @@ export default function Home() {
       {/* Section 3: WhoIAmSection */}
       <section
         data-navtheme="light"
-        className="min-h-screen overflow-hidden bg-white lg:sticky lg:top-0 lg:h-screen z-[3]"
+        className="min-h-screen overflow-hidden bg-panel lg:sticky lg:top-0 lg:h-screen z-[3]"
       >
         <WhoIAmSection />
       </section>
@@ -276,7 +276,7 @@ export default function Home() {
       {/* Section 5: ExperienceSection */}
       <section
         data-navtheme="dark"
-        className="min-h-screen overflow-hidden bg-[#0a0a0a] lg:sticky lg:top-0 lg:h-screen z-[5]"
+        className="min-h-screen overflow-hidden bg-surface lg:sticky lg:top-0 lg:h-screen z-[5]"
       >
         <ExperienceSection />
       </section>
@@ -284,7 +284,7 @@ export default function Home() {
       {/* Section 6: ContactSection */}
       <section
         data-navtheme="dark"
-        className="min-h-screen overflow-hidden bg-[#0a0a0a] lg:sticky lg:top-0 lg:h-screen z-[6]"
+        className="min-h-screen overflow-hidden bg-surface lg:sticky lg:top-0 lg:h-screen z-[6]"
       >
         <ContactSection />
       </section>

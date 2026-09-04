@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import ScrambleText from "@/components/anim/ScrambleText";
 
 const experiences = [
   {
@@ -84,7 +85,7 @@ export default function ExperienceSection() {
     <section
       ref={sectionRef}
       id="experience"
-      className="relative w-full min-h-screen bg-[#0a0a0a] overflow-hidden pt-32 pb-16"
+      className="relative w-full min-h-screen bg-surface overflow-hidden pt-32 pb-16"
     >
       {/* Big watermark */}
       <div className="absolute bottom-0 left-0 right-0 z-0 pointer-events-none overflow-hidden">
@@ -95,9 +96,12 @@ export default function ExperienceSection() {
 
       {/* Header */}
       <div className="relative z-10 flex justify-between items-center px-8 md:px-12 mb-12">
-        <p className="text-xs text-orange-500 tracking-[0.2em] uppercase font-bold">
+        <ScrambleText
+          as="p"
+          className="text-xs text-accent tracking-[0.2em] uppercase font-bold"
+        >
           Work Experience
-        </p>
+        </ScrambleText>
         <p className="text-xs text-white/40 tracking-wider">
           {experiences.length} Companies
         </p>
@@ -121,12 +125,12 @@ export default function ExperienceSection() {
             >
               {/* Timeline node */}
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full border-2 border-orange-500 flex items-center justify-center bg-[#0a0a0a] shrink-0">
-                  <span className="text-xs font-bold text-orange-500">
+                <div className="w-10 h-10 rounded-full border-2 border-accent flex items-center justify-center bg-surface shrink-0">
+                  <span className="text-xs font-bold text-accent">
                     {exp.number}
                   </span>
                 </div>
-                <div className="flex-1 h-[1px] bg-gradient-to-r from-orange-500/50 to-transparent" />
+                <div className="flex-1 h-[1px] bg-gradient-to-r from-accent/50 to-transparent" />
               </div>
 
               {/* Period + type + location */}
@@ -134,7 +138,7 @@ export default function ExperienceSection() {
                 <span className="text-xs text-white/80 font-medium tracking-wide">
                   {exp.period}
                 </span>
-                <span className="px-2 py-0.5 bg-orange-500/20 border border-orange-500/40 text-orange-400 text-[9px] tracking-wider uppercase rounded">
+                <span className="px-2 py-0.5 bg-accent/20 border border-accent/40 text-accent-bright text-[9px] tracking-wider uppercase rounded">
                   {exp.type}
                 </span>
                 <span className="text-[10px] text-white/30">{exp.location}</span>
@@ -154,7 +158,7 @@ export default function ExperienceSection() {
               <ul className="flex flex-col gap-3 mb-6">
                 {/* First point always visible */}
                 <li className="flex gap-2 text-xs text-white/70 leading-relaxed">
-                  <span className="text-orange-500 shrink-0 mt-0.5">▸</span>
+                  <span className="text-accent shrink-0 mt-0.5">▸</span>
                   <span>{exp.points[0]}</span>
                 </li>
 
@@ -164,7 +168,7 @@ export default function ExperienceSection() {
                     <div className="flex flex-col gap-3 pt-3 opacity-0 group-hover:opacity-100 group-[.is-expanded]:opacity-100 transition-opacity duration-500 delay-100">
                       {exp.points.slice(1).map((point, i) => (
                         <div key={i} className="flex gap-2 text-xs text-white/70 leading-relaxed">
-                          <span className="text-orange-500 shrink-0 mt-0.5">▸</span>
+                          <span className="text-accent shrink-0 mt-0.5">▸</span>
                           <span>{point}</span>
                         </div>
                       ))}
@@ -173,7 +177,7 @@ export default function ExperienceSection() {
                 </div>
 
                 {/* Hint when collapsed */}
-                <span className="text-[10px] text-orange-400/60 italic group-hover:opacity-0 group-[.is-expanded]:opacity-0 transition-opacity duration-300">
+                <span className="text-[10px] text-accent-bright/60 italic group-hover:opacity-0 group-[.is-expanded]:opacity-0 transition-opacity duration-300">
                   Tap to see more ↓
                 </span>
               </ul>

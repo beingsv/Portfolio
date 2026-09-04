@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLenis } from "@/components/SmoothScrollProvider";
 import SwapText from "@/components/anim/SwapText";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -85,14 +86,17 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
           </a>
         ))}
       </div>
-      <a
-        href="mailto:beingsamvis@gmail.com"
-        className={`text-xs transition-colors duration-200 ${
-          isDark ? "text-amber-400 hover:text-white" : "text-orange-800 hover:text-black"
-        }`}
-      >
-        Hire me →
-      </a>
+      <div className="flex items-center gap-4 md:gap-6">
+        <ThemeSwitcher variant={variant} />
+        <a
+          href="mailto:beingsamvis@gmail.com"
+          className={`text-xs whitespace-nowrap transition-colors duration-200 ${
+            isDark ? "text-accent-bright hover:text-white" : "text-accent-ink hover:text-black"
+          }`}
+        >
+          Hire me →
+        </a>
+      </div>
     </nav>
   );
 }

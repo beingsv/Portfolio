@@ -103,10 +103,10 @@ export default function CustomCursor() {
         aria-hidden
         className={`pointer-events-none fixed top-0 left-0 z-[9998] flex items-center justify-center rounded-full border transition-[width,height,background-color,border-color] duration-300 ${
           mode === "drag"
-            ? "h-20 w-20 border-transparent bg-orange-500"
+            ? "h-20 w-20 border-transparent bg-accent"
             : mode === "hover"
-              ? "h-14 w-14 border-orange-400/60 bg-orange-400/10"
-              : "h-8 w-8 border-orange-400/40"
+              ? "h-14 w-14 border-accent-bright/60 bg-accent-bright/10"
+              : "h-8 w-8 border-accent-bright/40"
         }`}
         style={{ willChange: "transform" }}
       >
@@ -123,11 +123,12 @@ export default function CustomCursor() {
       <div
         ref={dotRef}
         aria-hidden
-        className={`pointer-events-none fixed top-0 left-0 z-[9999] h-2 w-2 rounded-full bg-orange-400 transition-opacity duration-200 ${
+        className={`pointer-events-none fixed top-0 left-0 z-[9999] h-2 w-2 rounded-full bg-accent-bright transition-opacity duration-200 ${
           mode === "drag" ? "opacity-0" : "opacity-100"
         }`}
         style={{
-          boxShadow: "0 0 8px 2px rgba(251,146,60,0.5)",
+          boxShadow:
+            "0 0 8px 2px color-mix(in oklab, var(--accent-bright) 50%, transparent)",
           willChange: "transform",
         }}
       />

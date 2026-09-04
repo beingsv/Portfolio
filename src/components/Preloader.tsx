@@ -54,14 +54,14 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 z-[200] flex items-end justify-between bg-[#0a0a0a] px-8 pb-8 md:px-12"
+      className="fixed inset-0 z-[200] flex items-end justify-between bg-surface px-8 pb-8 md:px-12"
     >
       <div ref={innerRef} className="flex w-full items-end justify-between">
         <div>
           <p className="text-[10px] uppercase tracking-[0.3em] text-white/40">
             Shiwam Vishwakarma
           </p>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-orange-500">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-accent">
             Portfolio 2026
           </p>
         </div>

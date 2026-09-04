@@ -3,6 +3,7 @@ import { Nunito, Varela_Round } from "next/font/google";
 import CustomCursor from "@/components/CustomCursor";
 import GrainOverlay from "@/components/GrainOverlay";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import { DEFAULT_THEME, THEME_INIT_SCRIPT } from "@/lib/themes";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -28,7 +29,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${nunito.variable} ${varelaRound.variable}`}>
+    <html
+      lang="en"
+      data-theme={DEFAULT_THEME}
+      className={`${nunito.variable} ${varelaRound.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Applies the saved palette during HTML parsing, before the first
+            paint, so a non-default theme never flashes the default one. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="antialiased font-body">
         <CustomCursor />
         <GrainOverlay />

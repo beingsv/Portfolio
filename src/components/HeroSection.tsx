@@ -80,7 +80,7 @@ export default function HeroSection({ onStart, started }: HeroSectionProps) {
   };
 
   return (
-    <section ref={sectionRef} className="relative w-full h-screen overflow-hidden bg-[#0a0a0a]">
+    <section ref={sectionRef} className="relative w-full h-screen overflow-hidden bg-surface">
       {/* Background Video */}
       <video
         ref={videoRef}
@@ -126,9 +126,9 @@ export default function HeroSection({ onStart, started }: HeroSectionProps) {
         <Magnetic>
           <button
             onClick={handleStart}
-            className="btn relative overflow-hidden border border-amber-500/80 text-amber-500 tracking-[0.25em] uppercase hover:text-white transition-colors duration-300 group"
+            className="btn relative overflow-hidden border border-accent/80 text-accent tracking-[0.25em] uppercase hover:text-white transition-colors duration-300 group"
           >
-            <span className="absolute inset-0 bg-amber-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-400 ease-out" />
+            <span className="absolute inset-0 bg-accent transform -translate-x-full group-hover:translate-x-0 transition-transform duration-400 ease-out" />
             <span className="relative z-10">Start</span>
           </button>
         </Magnetic>
@@ -156,7 +156,7 @@ export default function HeroSection({ onStart, started }: HeroSectionProps) {
           className="flex flex-col justify-center flex-1 pr-4"
           style={{ marginLeft: "clamp(1rem, 5vw, 5rem)" }}
         >
-          <p className="text-label text-amber-500 font-medium">Portfolio 2026</p>
+          <p className="text-label text-accent font-medium">Portfolio 2026</p>
           <SplitReveal
             as="h1"
             type="chars"

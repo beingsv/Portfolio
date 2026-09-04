@@ -132,7 +132,7 @@ export default function ProjectsSection({
       ref={sectionRef}
       id="projects"
       data-navtheme="dark"
-      className="relative h-screen overflow-hidden bg-[#0a0a0a]"
+      className="relative h-screen overflow-hidden bg-surface"
     >
       {/* Stacked slides - later projects cover earlier ones from the right */}
       <div className="relative h-full w-full">
@@ -174,7 +174,7 @@ export default function ProjectsSection({
                 {/* Left column - tag, title, subtitle, button */}
                 <div className="lg:max-w-2xl shrink-0 flex flex-col gap-5">
                   <div>
-                    <span className="px-3 py-1 bg-orange-500/20 border border-orange-500/50 text-orange-400 text-[10px] tracking-wider uppercase rounded">
+                    <span className="px-3 py-1 bg-accent/20 border border-accent/50 text-accent-bright text-[10px] tracking-wider uppercase rounded">
                       {project.tag}
                     </span>
                   </div>
@@ -202,7 +202,7 @@ export default function ProjectsSection({
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white text-xs font-bold tracking-wider uppercase rounded-full hover:bg-orange-600 transition-colors duration-300"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white text-xs font-bold tracking-wider uppercase rounded-full hover:bg-accent-deep transition-colors duration-300"
                         >
                           {link.label}
                           <svg
@@ -245,7 +245,7 @@ export default function ProjectsSection({
 
       {/* Top bar */}
       <div className="absolute top-20 left-8 right-8 z-30 flex justify-between items-center">
-        <p className="text-xs text-orange-500 tracking-wider uppercase font-bold">
+        <p className="text-xs text-accent tracking-wider uppercase font-bold">
           Projects
         </p>
         <p className="text-xs text-white/40 tracking-wider">
@@ -262,7 +262,7 @@ export default function ProjectsSection({
             onClick={() => onNavigate(i)}
             aria-label={`Go to project ${i + 1}`}
             className={`h-2 rounded-full transition-all duration-300 ${
-              i === activeIndex ? "w-6 bg-orange-500" : "w-2 bg-white/30 hover:bg-white/60"
+              i === activeIndex ? "w-6 bg-accent" : "w-2 bg-white/30 hover:bg-white/60"
             }`}
           />
         ))}
